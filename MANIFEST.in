@@ -1,0 +1,8 @@
+recursive-include docs *
+recursive-include djira/static *
+recursive-include djira/templates *
+include LICENSE
+include Makefile
+include autotest-sphinx.cfg
+include autotest.cfg
+include tox.ini
