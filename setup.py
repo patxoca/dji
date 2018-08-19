@@ -20,7 +20,7 @@ setup(
     name="djira",
     version=version,
     description="Django Introspection REST API.",
-    long_description=read("README.txt"),
+    long_description=read("README.rst"),
     classifiers=[
         "Development Status :: 1 - Planning",
         "Environment :: Web Environment",
