@@ -55,8 +55,8 @@ Calling an endpoint
 As seen in the previous section, calling an endpoint is just a matter
 of executing a ``GET`` request on some URL.
 
-.. warning:: ``djira`` provides a read-only API so it only accepts
-             ``GET`` and ``HEAD`` requests.
+**Warning**: ``djira`` provides a read-only API so it only accepts
+``GET`` and ``HEAD`` requests.
 
 In order to improve readability the output from the following examples
 has been *prettyfied*. Depending on the plugins you have enabled the
@@ -68,8 +68,8 @@ output may be different.
    "pong"
 
 
-.. note:: If you get no output make sure you have included the
-          trailing slash in the URL.
+If you get no output make sure you have included the trailing slash in
+the URL.
 
 The API can be queried to get details about the endpoints. The
 ``__list__`` endpoint returns info about the registered endpoints:
@@ -151,8 +151,8 @@ Take a look at the ``demo.py`` module for an example.
 Take a look at the `pluggy docs <https://pluggy.readthedocs.io/en/latest/>`_
 for extra details.
 
-.. warning:: endpoints with *dunder* names are reserved for internal
-             usage.
+**Warning**: endpoints with *dunder* names are reserved for internal
+usage.
 
 
 Loading plugins
