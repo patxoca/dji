@@ -54,13 +54,9 @@ setup(
     zip_safe=False,
     install_requires=[
         "setuptools",
-        #BEGIN:extra_requirements
-        # -*- Extra requirements: -*-
         "django",
         "pluggy",
-        #END:extra_requirements
     ],
     entry_points={
-        # -*- Entry points: -*-
     },
 )

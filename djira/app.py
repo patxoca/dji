@@ -2,7 +2,6 @@
 
 # $Id:$
 
-#BEGIN:import
 from importlib import import_module
 
 from django.apps import AppConfig
@@ -12,7 +11,6 @@ import pluggy
 from . import hookspec
 from .common import get_config_value
 from .common import PROJECT_NAME
-#END:import
 
 
 class DjiraAppConfig(AppConfig):
@@ -20,8 +18,6 @@ class DjiraAppConfig(AppConfig):
     verbose_name = PROJECT_NAME
 
     def ready(self):
-        #MARKER:ready_import
-        #MARKER:ready
         pm = pluggy.PluginManager(PROJECT_NAME)
         self.plugin_manager = pm
         pm.add_hookspecs(hookspec)
