@@ -57,6 +57,7 @@ setup(
         #BEGIN:extra_requirements
         # -*- Extra requirements: -*-
         "django",
+        "pluggy",
         #END:extra_requirements
     ],
     entry_points={
