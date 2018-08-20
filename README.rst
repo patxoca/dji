@@ -167,8 +167,8 @@ loaders:
 
 - ``django_config``: loads all plugins listed in the
   ``enabled_plugins`` configuracion option. This loader gives finer
-  control on what plugins are loaded and on the order at the expense
-  of some verbosity.
+  control on what plugins are loaded on what order at the expense
+  of increased verbosity.
 
 The plugin loader is configured in ``settings.py``:
 
