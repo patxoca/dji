@@ -57,6 +57,10 @@ endpoints to the API without getting a headache.
 
 ``djira`` uses ``pluggy`` in order to manage the plugins.
 
+
+Writing plugins
+---------------
+
 Take a look at the ``hookspec.py`` module to see what the current
 specification of the plugin API is.
 
@@ -65,5 +69,32 @@ Take a look at the ``demo.py`` module for an example.
 Take a look at the `djira docs <https://pluggy.readthedocs.io/en/latest/>`_
 for extra details.
 
-.. important:: endpoints with *dunder* names are reserved for internal
-               usage.
+.. warning:: endpoints with *dunder* names are reserved for internal
+             usage.
+
+
+Loading plugins
+---------------
+
+In order to discover and load plugins ``djira`` implements two plugin
+loaders:
+
+- ``entry_points``: loads **all** plugins declared in a ``djira`` `entry
+  point <https://setuptools.readthedocs.io/en/latest/setuptools.html#dynamic-discovery-of-services-and-plugins>`_.
+  Load order is undefined. This is the default loader.
+
+- ``django_config``: loads all plugins listed in the
+  ``enabled_plugins`` configuracion option. This loader gives finer
+  control on what plugins are loaded and on the order at the expense
+  of some verbosity.
+
+The plugin loader is configured in ``settings.py``:
+
+.. code-block:: python
+
+   DJIRA = {
+       "plugin_loader": "djira.plugin_loader.django_config",
+       "enabled_plugins": ["djira.demo"],
+   }
+
+This example enables the ``djira.demo`` plugin.
