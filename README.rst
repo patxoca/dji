@@ -148,7 +148,7 @@ specification of the plugin API is.
 
 Take a look at the ``demo.py`` module for an example.
 
-Take a look at the `djira docs <https://pluggy.readthedocs.io/en/latest/>`_
+Take a look at the `pluggy docs <https://pluggy.readthedocs.io/en/latest/>`_
 for extra details.
 
 .. warning:: endpoints with *dunder* names are reserved for internal
