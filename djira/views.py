@@ -4,6 +4,8 @@
 
 import itertools
 
+from django.conf import settings
+from django.http.response import HttpResponseForbidden
 from django.http.response import HttpResponseNotFound
 from django.http.response import JsonResponse
 from django.views.decorators.http import require_http_methods
@@ -18,6 +20,9 @@ def dispatcher(request, name):
 
     """
     global _endpoints
+
+    if not settings.DEBUG:
+        return HttpResponseForbidden()
 
     if _endpoints is None:
         pm = get_plugin_manager()
