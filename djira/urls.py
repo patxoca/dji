@@ -2,6 +2,8 @@
 
 # $Id:$
 
+from functools import partial
+
 from django.conf.urls import include
 from django.conf.urls import url
 
@@ -15,6 +17,7 @@ urlpatterns = [
     # url(r"^blog/", include("blog.urls")),
     # url(r"^blog/(?P<pk>\d+)/", views.blog_view, name="blog_view"),
 
+    url(r"^$", partial(views.dispatcher, name="__list__"), name="djira_root_view"),
     url(r"^(?P<name>\w+)/$", views.dispatcher, name="djira_dispatcher_view")
     #MARKER:urls
 ]
