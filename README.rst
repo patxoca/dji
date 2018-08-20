@@ -49,6 +49,79 @@ point a browser to ``http://localhost:8000/__djira__/__ping__/``, this
 should display a ``pong`` response.
 
 
+Calling an endpoint
+===================
+
+As seen in the previous section, calling an endpoint is just a matter
+of executing a ``GET`` request on some URL.
+
+.. warning:: ``djira`` provides a read-only API so it only accepts
+             ``GET`` and ``HEAD`` requests.
+
+In order to improve readability the output from the following examples
+has been *prettyfied*. Depending on the plugins you have enabled the
+output may be different.
+
+.. code-block:: bash
+
+   $ curl http://localhost:8000/__djira__/__ping__/
+   "pong"
+
+
+.. note:: If you get no output make sure you have included the
+          trailing slash in the URL.
+
+The API can be queried to get details about the endpoints. The
+``__list__`` endpoint returns info about the registered endpoints:
+
+.. code-block:: bash
+
+   $ curl http://localhost:8000/__djira__/__list__/
+   [
+     {
+       "name": "__list__",
+       "doc": "List available endpoints.",
+       "args": "TODO"
+     },
+     {
+       "name": "__ping__",
+       "doc": "Test service availability.",
+       "args": "TODO"
+     },
+     {
+       "name": "get_model_info",
+       "doc": "Return a dict with info about the given model.",
+       "args": "TODO"
+     },
+     {
+       "name": "get_models_names",
+       "doc": "Return a list with the models names.",
+       "args": "TODO"
+     }
+   ]
+
+
+If the endpoint is omitted it is assumed to be ``__list__``.
+
+Arguments are passed in the query string:
+
+.. code-block:: bash
+
+   $ curl http://localhost:8000/__djira__/get_model_info/?model_id=FooBarModel
+   {
+     "name": [
+       "FooBarModel"
+     ],
+     "verbose_name": "Some descriptive text",
+     "fields": [
+       {
+         "name": "my_field",
+         "type": "int"
+       }
+     ]
+   }
+
+
 Plugins
 =======
 
