@@ -122,6 +122,15 @@ Arguments are passed in the query string:
    }
 
 
+Available endpoints
+===================
+
+Only the ``__list__`` and ``__ping__`` endpoints are guaranteed to be
+available, the remaining endpoints (including those provided by
+``djira`` itself) are implemented as plugins and can be replaced or
+removed on a per project basis.
+
+
 Plugins
 =======
 
