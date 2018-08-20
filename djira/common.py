@@ -6,6 +6,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from django.apps import apps
+from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 
 import pluggy
@@ -64,6 +65,14 @@ def get_plugin_manager():
     """
     app = apps.get_app_config(PROJECT_NAME)
     return app.plugin_manager
+
+
+def get_config_value(name, default=None):
+    """Return the value for a djira configuration option.
+
+    """
+    DJIRA = getattr(settings, "DJIRA", {})
+    return DJIRA.get(name, default)
 
 
 # decorator required by pluggy in order to mark plugin implementation
