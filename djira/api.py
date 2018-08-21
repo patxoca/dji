@@ -4,9 +4,11 @@
 
 from .common import EndPoint
 from .common import hookimpl
+from . import schema
 
 
 __all__ = [
     "EndPoint",
     "hookimpl",
+    "schema",
 ]

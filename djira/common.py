@@ -5,11 +5,16 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import logging
+
 from django.apps import apps
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 
 import pluggy
+
+
+logger = logging.getLogger("djira")
 
 
 # Project name, required by pluggy. Used as the name of the app too.

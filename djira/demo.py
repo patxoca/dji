@@ -9,6 +9,7 @@ from __future__ import unicode_literals
 
 from .common import EndPoint
 from .common import hookimpl
+from . import schema as S
 
 
 @hookimpl
@@ -20,13 +21,20 @@ def initialize():
 def get_endpoints():
     return (
         EndPoint(get_models_names),
-        EndPoint(get_model_info, request_schema="TODO"),
+        EndPoint(get_model_info, request_schema=get_model_info_schema),
     )
 
 
 def get_models_names():
     """Return a list with the models names."""
     return ["foo", "bar", "baz"]
+
+
+get_model_info_schema = S.Schema(
+    schema=dict(
+        model_id=S.String(doc="Model name."),
+    ),
+)
 
 
 def get_model_info(model_id):
