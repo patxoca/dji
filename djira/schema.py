@@ -15,10 +15,26 @@ How missing/undefined values work: TODO
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import functools
+
 from . import validators as V
 
 # marker for missing values
 _UNDEFINED = object()
+
+
+def handle_undefined_value(f):
+    @functools.wraps(f)
+    def decorator(self, value):
+        if value is _UNDEFINED:
+            if self.default is _UNDEFINED:
+                raise V.SchemaError("missing required value")
+            else:
+                # NOTE: the default value is assumed to be correct and
+                # won't undergo further processing
+                return self.default
+        return f(self, value)
+    return decorator
 
 
 class _Type(object):
@@ -34,18 +50,11 @@ class _Type(object):
         self.doc = doc
         self._validators = list(validators)  # make a copy
 
+    @handle_undefined_value
     def to_python(self, value):
         """Converts a value from the request to a python type.
 
         """
-        if value is _UNDEFINED:
-            if self.default is _UNDEFINED:
-                raise V.SchemaError("missing required value")
-            else:
-                # NOTE: the default value is assumed to be correct and
-                # won't undergo further processing
-                return self.default
-
         try:
             value = self.python_type(value)
         except (ValueError, TypeError) as e:
@@ -82,15 +91,8 @@ class List(_Type):
         super(List, self).__init__(*args, **kwargs)
         self._item_type = item_type
 
+    @handle_undefined_value
     def to_python(self, value):
-        if value is _UNDEFINED:
-            if self.default is _UNDEFINED:
-                raise V.SchemaError("missing required value")
-            else:
-                # NOTE: the default value is assumed to be correct and
-                # won't undergo further processing
-                return self.default
-
         to_python = self._item_type.to_python
         res = [to_python(i) for i in value]
         return self._apply_validators(res)
@@ -103,15 +105,8 @@ class Schema(_Type):
         super(Schema, self).__init__(*args, **kwargs)
         self._schema = dict(schema)  # make a copy
 
+    @handle_undefined_value
     def to_python(self, value):
-        if value is _UNDEFINED:
-            if self.default is _UNDEFINED:
-                raise V.SchemaError("missing required value")
-            else:
-                # NOTE: the default value is assumed to be correct and
-                # won't undergo further processing
-                return self.default
-
         fields_received = set(value.keys())
         fields_expected = set(self._schema.keys())
         unknown_fields = fields_received.difference(fields_expected)
