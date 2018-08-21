@@ -130,9 +130,9 @@ class Schema(_Type):
             try:
                 v = field.to_python(v)
             except V.SchemaError as e:
-                mssg = e.args[0]
-                rest = e.args[1:]
-                e.args = ("{}: {}".format(name, mssg), *rest)
+                args = list(e.args)
+                args[0] = "{}: {}".format(name, args[0])
+                e.args = tuple(args)
                 raise e
             else:
                 res[name] = v
