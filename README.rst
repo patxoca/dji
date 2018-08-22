@@ -80,23 +80,44 @@ The API can be queried to get details about the endpoints. The
    [
      {
        "name": "__list__",
-       "doc": "List available endpoints.",
-       "args": "TODO"
+       "description": "List available endpoints.",
+       "parameters": {},
+       "response": {}
      },
      {
        "name": "__ping__",
-       "doc": "Test service availability.",
-       "args": "TODO"
+       "description": "Test service availability.",
+       "parameters": {},
+       "response": {}
      },
      {
        "name": "get_model_info",
-       "doc": "Return a dict with info about the given model.",
-       "args": "TODO"
+       "description": "Return a dict with info about the given model.",
+       "parameters": {
+         "description": "",
+         "type": "schema",
+         "extra": {
+           "model_id": {
+             "description": "Model name.",
+             "type": "string",
+             "required": true
+           }
+         }
+       },
+       "response": {}
      },
      {
        "name": "get_models_names",
-       "doc": "Return a list with the models names.",
-       "args": "TODO"
+       "description": "Return a list with the models names.",
+       "parameters": {},
+       "response": {
+         "description": "list of model names",
+         "type": "list",
+         "extra": {
+           "description": "",
+           "type": "string"
+         }
+       }
      }
    ]
 
