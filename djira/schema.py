@@ -71,6 +71,26 @@ class _Type(object):
         return value
 
 
+class Bool(_Type):
+    """Boolean values.
+
+    It's very strict regarding the allowed values, only the strings
+    ``"true"`` and ``"false"``, in lowercase, and the python's boolean
+    literals ``True`` and ``False`` are recognized, everything else
+    raises an ``SchemaError`` exception.
+
+    """
+    type_name = "boolean"
+
+    @staticmethod
+    def python_type(v):
+        if v in (True, "true"):
+            return True
+        if v in (False, "false"):
+            return False
+        raise TypeError("not boolean: {!r}".format(v))
+
+
 class Int(_Type):
     type_name = "int"
     python_type = int

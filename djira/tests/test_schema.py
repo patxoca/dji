@@ -15,6 +15,7 @@ else:
 from django.utils.datastructures import MultiValueDict
 
 from .. import validators as V
+from ..schema import Bool
 from ..schema import Float
 from ..schema import Int
 from ..schema import List
@@ -137,6 +138,23 @@ class Test_Type(_BaseTestCase):
         self.assertEqual(validators[0].call_count, 1)
         self.assertEqual(validators[1].call_count, 1)
         self.assertEqual(validators[2].call_count, 0)
+
+
+class TestBool(_BaseTestCase):
+
+    def setUp(self):
+        self.type_ = Bool()
+
+    def test_initial_conversion(self):
+        self.assertConversion("true", True)
+        self.assertConversion(True, True)
+        self.assertConversion("false", False)
+        self.assertConversion(False, False)
+        self.assertValidationFails("True", "not boolean.*")
+        self.assertValidationFails("False", "not boolean.*")
+        self.assertValidationFails("0", "not boolean.*")
+        self.assertValidationFails("1", "not boolean.*")
+        self.assertValidationFails("a", "not boolean.*")
 
 
 class TestInt(_BaseTestCase):
