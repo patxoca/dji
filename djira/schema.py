@@ -99,6 +99,7 @@ class List(_Type):
 
 
 class Schema(_Type):
+    type_name = "schema"
     python_type = dict
 
     def __init__(self, schema, *args, **kwargs):
