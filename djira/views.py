@@ -11,10 +11,8 @@ from django.http.response import HttpResponseNotFound
 from django.http.response import JsonResponse
 from django.views.decorators.http import require_http_methods
 
-from .common import EndPoint
-from .common import get_plugin_manager
 from .common import logger
-from .schema import get_schema_spec
+from .ep_registry import get_endpoint_by_name
 from .validators import SchemaError
 
 
@@ -23,18 +21,11 @@ def dispatcher(request, name):
     """Dispatches the call to the endpoint.
 
     """
-    global _endpoints
-
     if not settings.DEBUG:
         return HttpResponseForbidden()
 
-    if _endpoints is None:
-        pm = get_plugin_manager()
-        _endpoints = {i.name: i for i in _DEFAULT_ENDPOINTS}
-        _update_endpoints(_endpoints, pm.hook.get_endpoints())
-
     # get endpoint
-    ep = _endpoints.get(name, None)
+    ep = get_endpoint_by_name(name)
     if ep is None:
         return HttpResponseNotFound(name)
 
@@ -75,48 +66,6 @@ def dispatcher(request, name):
 # | |_) | |  | |\ V / (_| | ||  __/
 # | .__/|_|  |_| \_/ \__,_|\__\___|
 # |_|
-
-_endpoints = None
-
-
-def _ep_list():
-    "List available endpoints."
-    res = []
-    for ep in sorted(_endpoints.values(), key=lambda x: x.name):
-        if ep.request_schema:
-            args_doc = get_schema_spec(ep.request_schema)
-        else:
-            args_doc = {}
-        if ep.response_schema:
-            response_doc = get_schema_spec(ep.response_schema)
-        else:
-            response_doc = {}
-        res.append({
-            "name": ep.name,
-            "description": ep.doc,
-            "parameters": args_doc,
-            "response": response_doc,
-        })
-    return res
-
-
-def _ep_ping():
-    return "pong"
-
-
-_DEFAULT_ENDPOINTS = [
-    EndPoint(_ep_list, name="__list__", doc="List available endpoints."),
-    EndPoint(_ep_ping, name="__ping__", doc="Test service availability."),
-]
-
-
-def _update_endpoints(res, l):
-    for ep in itertools.chain(*l):
-        if not isinstance(ep, EndPoint):
-            raise ValueError("not an endpoint {!r}".format(ep))
-        if ep.name in res:
-            raise ValueError("endpoint already exists: {}".format(ep.name))
-        res[ep.name] = ep
 
 
 def _error_response(http_status, description, error_code=None, details=None):

@@ -7,9 +7,9 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from .common import EndPoint
-from .common import hookimpl
-from . import schema as S
+from ..common import EndPoint
+from ..common import hookimpl
+from .. import schema as S
 
 
 @hookimpl
