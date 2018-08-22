@@ -64,15 +64,10 @@ def ep_list():
             args_doc = get_schema_spec(ep.request_schema)
         else:
             args_doc = {}
-        if ep.response_schema:
-            response_doc = get_schema_spec(ep.response_schema)
-        else:
-            response_doc = {}
         res.append({
             "name": ep.name,
             "description": ep.doc,
             "parameters": args_doc,
-            "response": response_doc,
         })
     return res
 

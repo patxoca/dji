@@ -37,9 +37,6 @@ class EndPoint(object):
       arguments. Is used both for sanitizing the input and for
       documentation purposes.
 
-    :param Schema response_schema: ``Schema`` describin the value
-      returned by ``function``. Used for documentation purposes.
-
     :param str doc: documentation for of the endpoint. If omitted
       ``function.__doc__`` will be used.
 
@@ -49,7 +46,7 @@ class EndPoint(object):
 
     """
     def __init__(self, function, name=None, request_schema=None,
-                 response_schema=None, doc=None, encoder=DjangoJSONEncoder):
+                 doc=None, encoder=DjangoJSONEncoder):
         if not callable(function):
             raise TypeError("'function' argument must be callable.")
         if name is None:
@@ -59,7 +56,6 @@ class EndPoint(object):
         self.function = function
         self.name = name
         self.request_schema = request_schema
-        self.response_schema = response_schema
         self.doc = doc
         self.encoder = encoder
 

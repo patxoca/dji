@@ -20,12 +20,9 @@ def initialize():
 @hookimpl
 def get_endpoints():
     return (
-        EndPoint(get_models_names, response_schema=get_models_names_response_schema),
+        EndPoint(get_models_names),
         EndPoint(get_model_info, request_schema=get_model_info_schema),
     )
-
-
-get_models_names_response_schema = S.List(S.String(), doc="list of model names")
 
 
 def get_models_names():
