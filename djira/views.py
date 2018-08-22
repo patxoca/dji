@@ -14,6 +14,7 @@ from django.views.decorators.http import require_http_methods
 from .common import EndPoint
 from .common import get_plugin_manager
 from .common import logger
+from .schema import get_schema_spec
 from .validators import SchemaError
 
 
@@ -82,7 +83,20 @@ def _ep_list():
     "List available endpoints."
     res = []
     for ep in sorted(_endpoints.values(), key=lambda x: x.name):
-        res.append({"name": ep.name, "doc": ep.doc, "args": "TODO"})
+        if ep.request_schema:
+            args_doc = get_schema_spec(ep.request_schema)
+        else:
+            args_doc = {}
+        if ep.response_schema:
+            response_doc = get_schema_spec(ep.response_schema)
+        else:
+            response_doc = {}
+        res.append({
+            "name": ep.name,
+            "description": ep.doc,
+            "parameters": args_doc,
+            "response": response_doc,
+        })
     return res
 
 

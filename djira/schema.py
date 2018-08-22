@@ -134,3 +134,36 @@ class Schema(_Type):
                 res[name] = v
 
         return self._apply_validators(res)
+
+
+def get_schema_spec(item):
+    """Returns a dictionary with the Schema's specification.
+
+    """
+    return _get_schema_spec(item, None)
+
+
+def _get_schema_spec(item, parent=None):
+    doc = {
+        "description": item.doc,
+        "type": item.type_name,
+    }
+    if item.default is _UNDEFINED:
+        doc["required"] = True
+    else:
+        doc["required"] = False
+        doc["default"] = item.default
+
+    if isinstance(item, List):
+        doc["extra"] = _get_schema_spec(item._item_type, item)
+    elif isinstance(item, Schema):
+        doc["extra"] = {k: _get_schema_spec(v, item) for k, v in item._schema.items()}
+
+    if not isinstance(parent, Schema):
+        # NOTE: _Type defines "required" and "default" for convenience
+        # but they only make sense for items within an Schema (any
+        # named container).
+        doc.pop("required", None)
+        doc.pop("default", None)
+
+    return doc
