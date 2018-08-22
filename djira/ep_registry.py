@@ -84,9 +84,37 @@ def ep_ping():
     return "pong"
 
 
+def ep_version():
+    """Get djira API version.
+
+    This endpoint returns the ``djira`` API version so that clients
+    can check their compatibility.
+
+    .. warning:: Don't confuse this API with the one provided by the
+                 actual endpoints. The version returned here refers to
+                 the format of the messages, the specification of the
+                 builtin endpoints etc. Ideally third party plugin
+                 will provide it's own version.
+
+    Returns a list with two integers representing the djira API
+    version, using the format ``[major, minor]``:
+
+    - ``minor`` will be incremented whenever a non breaking change is
+      made. For example, adding a new builtin endpoint. Older clients
+      should ignore those elements.
+
+    - ``major`` will be incremented when a change breaks compatibility
+      with existing clients.
+
+    """
+    # TODO: move the actual version "value" somewhere else?
+    return [1, 0]
+
+
 _DEFAULT_ENDPOINTS = [
     EndPoint(ep_list, name="__list__", doc="List available endpoints."),
     EndPoint(ep_ping, name="__ping__", doc="Test service availability."),
+    EndPoint(ep_version, name="__version__", doc="Get djira API version."),
 ]
 
 
