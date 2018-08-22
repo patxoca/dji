@@ -81,14 +81,17 @@ The API can be queried to get details about the endpoints. The
      {
        "name": "__list__",
        "description": "List available endpoints.",
-       "parameters": {},
-       "response": {}
+       "parameters": {}
      },
      {
        "name": "__ping__",
        "description": "Test service availability.",
-       "parameters": {},
-       "response": {}
+       "parameters": {}
+     },
+     {
+       "name": "__version__",
+       "description": "Get djira API version.",
+       "parameters": {}
      },
      {
        "name": "get_model_info",
@@ -103,21 +106,12 @@ The API can be queried to get details about the endpoints. The
              "required": true
            }
          }
-       },
-       "response": {}
+       }
      },
      {
        "name": "get_models_names",
        "description": "Return a list with the models names.",
-       "parameters": {},
-       "response": {
-         "description": "list of model names",
-         "type": "list",
-         "extra": {
-           "description": "",
-           "type": "string"
-         }
-       }
+       "parameters": {}
      }
    ]
 
@@ -146,10 +140,10 @@ Arguments are passed in the query string:
 Available endpoints
 ===================
 
-Only the ``__list__`` and ``__ping__`` endpoints are guaranteed to be
-available, the remaining endpoints (including those provided by
-``djira`` itself) are implemented as plugins and can be replaced or
-removed on a per project basis.
+Only the ``__list__``, ``__ping__`` and ``__version__`` endpoints are
+guaranteed to be available, the remaining endpoints (including those
+provided by ``djira`` itself) are implemented as plugins and can be
+replaced or removed on a per project basis.
 
 
 Plugins
