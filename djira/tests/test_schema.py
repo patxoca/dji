@@ -58,7 +58,7 @@ class Test_Type(_BaseTestCase):
 
     def test_to_python_UNDEFINED_performs_convertion_on_default(self):
         type_ = _Type(default=42)
-        with mock.patch.object(type_, "python_type") as python_type:
+        with self.mock_python_type(type_) as python_type:
             type_.to_python(_UNDEFINED)
             python_type.assert_called_once_with(42)
 
