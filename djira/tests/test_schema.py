@@ -56,21 +56,18 @@ class Test_Type(_BaseTestCase):
         with self.assertRaisesRegexp(V.SchemaError, r"missing required value"):
             type_.to_python(_UNDEFINED)
 
-    def test_to_python_UNDEFINED_with_default_returns_default(self):
-        type_ = _Type(default=42)
-        self.assertEqual(type_.to_python(_UNDEFINED), 42)
-
-    def test_to_python_UNDEFINED_with_default_performs_no_convertion(self):
+    def test_to_python_UNDEFINED_performs_convertion_on_default(self):
         type_ = _Type(default=42)
         with mock.patch.object(type_, "python_type") as python_type:
             type_.to_python(_UNDEFINED)
-            self.assertEqual(python_type.call_count, 0)
+            python_type.assert_called_once_with(42)
 
-    def test_to_python_UNDEFINED_with_default_ignores_validators(self):
+    def test_to_python_UNDEFINED_runs_validators_on_default(self):
         type_ = _Type(default=42, validators=[mock.Mock()])
         with mock.patch.object(type_, "_apply_validators") as apply_validators:
-            type_.to_python(_UNDEFINED)
-            self.assertEqual(apply_validators.call_count, 0)
+            with self.mock_python_type(type_, return_value=314):
+                type_.to_python(_UNDEFINED)
+                apply_validators.assert_called_once_with(314)
 
     ## initial type conversion
 
@@ -185,8 +182,8 @@ class TestList(_BaseTestCase):
             type_.to_python(_UNDEFINED)
 
     def test_undefined_list_with_default_returns_default(self):
-        type_ = List(Int(), default="some value")
-        self.assertEqual(type_.to_python(_UNDEFINED), "some value")
+        type_ = List(Int(), default=[42, 314])
+        self.assertEqual(type_.to_python(_UNDEFINED), [42, 314])
 
     def test_calls_item_type_dot_to_python_for_each_item(self):
         to_python = mock.Mock(wraps=lambda x: int(x) * 2)
@@ -220,6 +217,14 @@ class TestSchema(_BaseTestCase):
                 items=List(String(), default=[])
             )
         )
+        self.type_with_default = Schema(
+            schema=dict(
+                name=String(),
+                value=Int(),
+                items=List(String(), default=["foo", "bar"])
+            ),
+            default=dict(name="Bob", value=42),
+        )
 
     def mk_dict(self, **kwargs):
         res = MultiValueDict()
@@ -230,13 +235,32 @@ class TestSchema(_BaseTestCase):
                 res[k] = v
         return res
 
+    # __init__
+
+    def test_init_converts_default_to_MultiValueDict(self):
+        self.assertIsInstance(self.type_with_default.default, MultiValueDict)
+
+    def test_MultiValueDict_conversion(self):
+        d = {"the answer": 42, "hello": "world", "a_list": ["of", "things"]}
+        res = Schema._make_multidict(d)
+        self.assertIsInstance(res, MultiValueDict)
+        self.assertEqual(res.get("the answer"), 42)
+        self.assertEqual(res.get("hello"), "world")
+        self.assertEqual(res.get("a_list"), "things")
+        self.assertEqual(res.getlist("a_list"), ["of", "things"])
+
+    # to_python
+
     def test_undefined_dict_without_default_raises_SchemaError(self):
         with self.assertRaisesRegexp(V.SchemaError, r"missing required value"):
             self.type_.to_python(_UNDEFINED)
 
-    def test_undefined_dict_with_default_returns_default(self):
-        self.type_.default = "whatever"
-        self.assertEqual(self.type_.to_python(_UNDEFINED), "whatever")
+    def test_undefined_dict_with_default_returns_default_augmented(self):
+        self.assertNotIn("default", self.type_with_default.default)
+        self.assertEqual(
+            self.type_with_default.to_python(_UNDEFINED),
+            {"name": "Bob", "value": 42, "items": ["foo", "bar"]}
+        )
 
     def test_raises_SchemaError_if_value_contains_unknown_fields(self):
         value = self.mk_dict(

@@ -17,6 +17,8 @@ from __future__ import unicode_literals
 
 import functools
 
+from django.utils.datastructures import MultiValueDict
+
 from . import validators as V
 
 # marker for missing values
@@ -30,9 +32,10 @@ def handle_undefined_value(f):
             if self.default is _UNDEFINED:
                 raise V.SchemaError("missing required value")
             else:
-                # NOTE: the default value is assumed to be correct and
-                # won't undergo further processing
-                return self.default
+                # NOTE: just to be safe, assume that the default value
+                # may contain errors
+                value = self.default
+
         return f(self, value)
     return decorator
 
@@ -103,6 +106,8 @@ class Schema(_Type):
     python_type = dict
 
     def __init__(self, schema, *args, **kwargs):
+        if "default" in kwargs:
+            kwargs["default"] = self._make_multidict(kwargs["default"])
         super(Schema, self).__init__(*args, **kwargs)
         self._schema = dict(schema)  # make a copy
 
@@ -134,6 +139,16 @@ class Schema(_Type):
                 res[name] = v
 
         return self._apply_validators(res)
+
+    @staticmethod
+    def _make_multidict(d):
+        res = MultiValueDict()
+        for k, v in d.items():
+            if isinstance(v, list):
+                res.setlist(k, v)
+            else:
+                res[k] = v
+        return res
 
 
 def get_schema_spec(item):
