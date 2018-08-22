@@ -6,7 +6,6 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from future.utils import PY3
 
-from contextlib import contextmanager
 import unittest
 if PY3:
     from unittest import mock
@@ -32,14 +31,15 @@ class _BaseTestCase(unittest.TestCase):
             type_ = self.type_
         self.assertEqual(type_.to_python(value), expected)
 
-    @contextmanager
-    def assertValidationFails(self, regex=None):
+    def assertValidationFails(self, value, regex=None, type_=None):
         if regex is None:
             manager = self.assertRaises(V.SchemaError)
         else:
             manager = self.assertRaisesRegexp(V.SchemaError, regex)
+        if type_ is None:
+            type_ = self.type_
         with manager:
-            yield
+            type_.to_python(value)
 
 
 class Test_Type(_BaseTestCase):
@@ -148,12 +148,8 @@ class TestInt(_BaseTestCase):
         self.assertConversion("0", 0)
         self.assertConversion("42", 42)
         self.assertConversion("-314", -314)
-
-        with self.assertValidationFails():
-            self.type_.to_python("a")
-
-        with self.assertValidationFails():
-            self.type_.to_python("3.14")
+        self.assertValidationFails("a")
+        self.assertValidationFails("3.14")
 
 
 class TestFloat(_BaseTestCase):
@@ -166,9 +162,7 @@ class TestFloat(_BaseTestCase):
         self.assertConversion("42", 42)
         self.assertConversion("-314", -314)
         self.assertConversion("3.14", 3.14)
-
-        with self.assertValidationFails():
-            self.type_.to_python("a")
+        self.assertValidationFails("a")
 
 
 class TestList(_BaseTestCase):
@@ -278,8 +272,7 @@ class TestSchema(_BaseTestCase):
 
     def test_validates_individual_keys(self):
         value = self.mk_dict(name="Bob", value="x")
-        with self.assertValidationFails(r"value: invalid literal.*"):
-            self.type_.to_python(value)
+        self.assertValidationFails(value, r"value: invalid literal.*")
 
     def test_applies_validators_to_the_resulting_dict(self):
         value = self.mk_dict(name="Bob", value="3")
