@@ -5,7 +5,9 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import importlib
 import json
+import os
 import sys
 
 import django
@@ -29,9 +31,22 @@ def get_system_info():
     """Return a dictionary with assorted system information.
 
     """
+    settings_module_name = os.environ.get("DJANGO_SETTINGS_MODULE", None)
+    if settings_module_name:
+        try:
+            settings_module = importlib.import_module(settings_module_name)
+        except ModuleNotFoundError:
+            project_root = None
+        else:
+            project_root = os.path.dirname(os.path.dirname(settings_module.__file__))
+    else:
+        project_root = None
+
     return {
         "django": django.__path__[0],
+        "django_project_root": project_root,
         "django_settings": _get_settings(),
+        "django_settings_module": settings_module_name,
         "django_version": django.VERSION,
         "python": sys.executable,
         "python_version": list(sys.version_info),
