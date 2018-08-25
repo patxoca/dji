@@ -53,8 +53,15 @@ def get_apps_details(labels):
 def _get_app_detail(app):
     return {
         "label": app.label,
-        "models": sorted(app.models.keys()),
+        "models": _get_models(app),
         "name": app.name,
         "path": app.path,
         "verbose_name": app.verbose_name,
     }
+
+
+def _get_models(app):
+    return sorted([
+        class_._meta.object_name
+        for class_ in app.models.values()
+    ])
