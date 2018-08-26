@@ -5,6 +5,8 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import inspect
+
 from django.apps import apps
 
 from ..common import EndPoint
@@ -56,6 +58,9 @@ def _get_app_detail(app):
         "models": _get_models(app),
         "name": app.name,
         "path": app.path,
+        "app_class_name": app.__class__.__name__,
+        "app_class_source": inspect.getsourcefile(app.__class__),
+        "app_class_line": inspect.getsourcelines(app.__class__)[1],
         "verbose_name": app.verbose_name,
     }
 
