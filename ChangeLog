@@ -1,0 +1,215 @@
+2018-08-25  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/apps.py: Changed models info in
+	"get_apps_details".  The value returned now contains the name of the class of the model,
+	not the name of the model.
+
+2018-08-25  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/system.py: Added fields to "get_system_info".  This commit adds the fields "django_project_root" and
+	"django_settings_module" to the result returned by
+	"get_system_info".
+
+2018-08-24  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/apps.py: Added "apps" plugin.
+
+2018-08-24  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/system.py: Added "get_system_info" endpoint.
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/client.py: Initial implementation of a client class.
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Sync README with latest changes.
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/common.py, djira/endpoints/demo.py, djira/ep_registry.py: 
+	Remove "response_schema" from endpoints.  Schema's model isn't powerful enough to represent arbitrary data
+	structures. Any complete solution will be disproportionately complex
+	in regards to the problem that I'm trying to solve here.  I think that not providing the formalized response specification is
+	better than providing an incomplete or misleading one. An informal
+	specification can be provided in the endpoint's description.
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/schema.py, djira/tests/test_schema.py: Add "Bool" type to
+	the schema + tests.
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/ep_registry.py: Add "__version__" endpoint.
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/views.py: Remove unused import.
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/__init__.py, djira/{ => endpoints}/demo.py,
+	djira/ep_registry.py, djira/views.py: Refactor "views" module.  Moved all the functionality related to the endpoints registry into
+	the new module "ep_registre".  Created the "endpoints" module and moved "demo" into it. The initial
+	idea was to move there the builtin endpoints too, but circular
+	dependency problems are preventing that.
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Update example output in README.
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/tests/test_schema.py: Clean
+	"test_to_python_UNDEFINED_performs_convertion_on_default".  Aesthetic change, replace an explicit "mock.patch.object" with
+	"mock_python_type".
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/tests/test_schema.py: Convert "assertValidationField" into a
+	plain function.  Originally "assertValidationField" was a context manager. It does
+	not provide any value and make for more verbose tests.
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/schema.py, djira/tests/test_schema.py: Validate the default
+	value.  Just to be safe assume that the default value provided in the schema
+	may contain errors and run it through the conversion and validation
+	steps as any other value.  In "Schema.__init__", if a default value is provided (a dict)
+	convert it to a "MultiValueDict" to make "Schema.to_python" happy.
+	Add tests for the conversion.  Fix the tests for which i have been too lazy to care about the type
+	of the default value.  Adapt tests to the new semantic.
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/demo.py, djira/schema.py, djira/views.py: Implement schema
+	introspection.  Add the function "get_schema_spec" which returns an structured
+	specification given an schema.  Update the "__list__" endpoint so that it includes both the
+	parameters and response schema's spec for each endpoint.  Update the demo adding a "response_schema".
+
+2018-08-22  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/schema.py: Add missing "type_name" to Schema.
+
+2018-08-21  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/schema.py: Refactor schema module.  Factor out the code than handles undefined values into a decorator.
+
+2018-08-21  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* tox.ini: Fix tox test command config The current tests don't require a fully configured django.
+
+2018-08-21  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* tox.ini: Fix tox dependencies: add mock for python 2.7.
+
+2018-08-21  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* tox.ini: Fix tox envlist: django 2.1 requires python 3.5+.
+
+2018-08-21  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/schema.py: Fix last fix.
+
+2018-08-21  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/schema.py: Adapt code to python 2.
+
+2018-08-21  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/api.py, djira/common.py, djira/demo.py, djira/schema.py,
+	djira/tests/test_schema.py, djira/tests/test_validators.py,
+	djira/validators.py, djira/views.py: Implement schema definition.  - add machinery required to define schemas - add validators - integrate the schema into the dispatcher - add an schema in demo
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/admin/__init__.py, djira/app.py, djira/models/__init__.py,
+	djira/permissions.py, djira/signals.py,
+	djira/static/djira/css/esborrar,
+	djira/static/djira/images/esborrar, djira/static/djira/js/esborrar,
+	djira/templates/djira/esborrar, djira/urls.py, setup.py: Clean
+	package.  Delete unused modules (models, admin etc.), code markers and other
+	useless boilerplate added by the scaffolding.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Remove admonitions from README.  github strips out CSS classes from admonitions (warning, note etc)
+	and the output may be confusing. This revision replaces admonitions
+	with simpler constructs that are properly rendered.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Minor style fix en README.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Fix typo.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Add section "Available endpoints" to the README.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Add section "Calling an endpoint" to the README.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/urls.py: Define a default endpoint.  If the request does not include an endpoint it is assumed to be
+	"__list__".
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Update the "plugins" section in README.rst.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/app.py, djira/common.py, djira/plugin_loader.py: Implement
+	plugin loaders.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/views.py: Enable the view only in DEBUG mode.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Update README.rst.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/urls.py: Remove "v1" prefix from the URL.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* setup.py: Add "pluggy" dependency.
+
+2018-08-20  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/__init__.py, djira/api.py, djira/app.py, djira/common.py,
+	djira/demo.py, djira/hookspec.py, djira/urls.py, djira/views.py,
+	djira/views/__init__.py: Initial implementation of the
+	view/dispatcher.
+
+2018-08-19  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* setup.py: Fix typo en filename: README.txt -> README.rst
+
+2018-08-19  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* MANIFEST.in, README.rst, autotest-sphinx.cfg, autotest.cfg,
+	djira/__init__.py, djira/admin/__init__.py, djira/api.py,
+	djira/app.py, djira/models/__init__.py, djira/permissions.py,
+	djira/signals.py, djira/static/djira/css/esborrar,
+	djira/static/djira/images/esborrar, djira/static/djira/js/esborrar,
+	djira/templates/djira/esborrar, djira/test_settings.py,
+	djira/test_urls.py, djira/tests/__init__.py,
+	djira/tests/factories/__init__.py, djira/urls.py,
+	djira/views/__init__.py, docs/HISTORY.txt, setup.cfg, setup.py,
+	tox.ini: Import initial skeleton.
+
+2018-08-19  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* Initial commit
+
