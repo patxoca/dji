@@ -38,6 +38,7 @@ def get_system_info():
         except ModuleNotFoundError:
             project_root = None
         else:
+            settings_module_path = settings_module.__file__
             project_root = os.path.dirname(os.path.dirname(settings_module.__file__))
     else:
         project_root = None
@@ -47,6 +48,7 @@ def get_system_info():
         "django_project_root": project_root,
         "django_settings": _get_settings(),
         "django_settings_module": settings_module_name,
+        "django_settings_path": settings_module_path,
         "django_version": django.VERSION,
         "python": sys.executable,
         "python_version": list(sys.version_info),
