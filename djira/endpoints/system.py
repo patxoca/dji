@@ -39,6 +39,8 @@ def get_system_info():
             project_root = None
         else:
             settings_module_path = settings_module.__file__
+            if settings_module_path.endswith(".pyc"):
+                settings_module_path = settings_module_path[:-1]
             project_root = os.path.dirname(os.path.dirname(settings_module.__file__))
     else:
         project_root = None
