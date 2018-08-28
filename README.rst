@@ -9,8 +9,14 @@ Introduction
 Django app that exposes some internals through a REST API. Intended
 for development tools comsumption.
 
-The first objective is writing an emacs plugin that helps developing
-django apps.
+Is you use emacs take a look at djira-el_ (an emacs client for
+``djira``) and at django-el_ (the django mode from Krypton).
+
+.. _djira-el: https://github.com/patxoca/djira-el.git
+.. _django-el: https://github.com/patxoca/dango-el.git
+
+``djira`` uses a plugable architecture so that you can add you own
+endpoints or replace the existing ones.
 
 
 Installation
@@ -38,15 +44,22 @@ Configuration
 =============
 
 Add ``djira`` to ``INSTALLED_APPS`` in your project's config and
-include djira URLs in your root url definition:
+include djira URLs in your root url definition. Since ``djira`` is
+ment for development environments its better to enable it
+conditionally:
 
 .. code-block:: python
 
-   urlpatterns = [
-       ...
-       url(r"^__djira__/", include("djira.urls")),
-       ...
-   ]
+   # project/urls.py
+
+   from django.conf import settings
+
+   urlpatterns = [ ... ]
+
+   if settings.DEBUG and "djira" in settings.INSTALLED_APPS:
+       urlpatterns.append(
+           url(r"^__djira__/", include("djira.urls")),
+       )
 
 
 In order to test the installation start the development server and
