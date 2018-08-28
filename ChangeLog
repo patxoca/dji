@@ -1,3 +1,12 @@
+2018-08-28  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Document installation from pypi.  Since there ara two installation methods it's better to put the
+	configuration instructions in its own section.
+
+2018-08-28  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* ChangeLog, setup.py: Release 0.2.0
+
 2018-08-27  Alexis Roda <alexis.roda.villalonga@gmail.com>
 
 	* djira/endpoints/system.py: Fixed "settings.py" extension in
