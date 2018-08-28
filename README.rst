@@ -16,7 +16,9 @@ django apps.
 Installation
 ============
 
-Clone the git repo:
+To install from *pypi* just run ``pip install djira``.
+
+To install de development version clone the git repo:
 
 .. code-block:: bash
 
@@ -32,7 +34,10 @@ mode:
    python setup.py develop
 
 
-Add the ``djira`` to ``INSTALLED_APPS`` in your project's config and
+Configuration
+=============
+
+Add ``djira`` to ``INSTALLED_APPS`` in your project's config and
 include djira URLs in your root url definition:
 
 .. code-block:: python
