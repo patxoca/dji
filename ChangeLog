@@ -1,3 +1,28 @@
+2018-08-27  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/system.py: Fixed "settings.py" extension in
+	endpoint.  The endpoint used to return the path of the compiled 'pyc' file.
+	Changed to return the source 'py' file.
+
+2018-08-27  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* : commit b493a7adaa4ab1225fa3c2f677a2b3ac37e93ba8 Author: Alexis
+	Roda <alexis.roda.villalonga@gmail.com> Date:   Mon Aug 27 18:22:34
+	2018 +0200
+
+2018-08-27  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/system.py: Addey key "django_settings_path" to
+	endpoint "get_system_info".
+
+2018-08-27  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/apps.py: Added keys to "get_apps_endpoints".  Added keys: - app_class_line - app_class_name - app_class_source
+
+2018-08-26  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* ChangeLog, setup.py: Release 0.1.0
+
 2018-08-25  Alexis Roda <alexis.roda.villalonga@gmail.com>
 
 	* djira/endpoints/apps.py: Changed models info in
