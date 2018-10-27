@@ -8,6 +8,8 @@ from __future__ import unicode_literals
 import functools
 import inspect
 
+# FIXME: en django 2.x s'ha refactoritzat tot el tema de les URLs i
+# aquests imports fallen
 from django.urls.resolvers import RegexURLPattern
 from django.urls.resolvers import RegexURLResolver
 from django.urls import get_resolver
