@@ -29,23 +29,27 @@ def get_endpoints():
 def get_urls_details():
     """Return a list with the models names."""
     patterns = []
-    _get_url_patterns(get_resolver(get_urlconf()), patterns)
+    _get_url_patterns(get_resolver(get_urlconf()), patterns, "")
     res = {}
     for i in patterns:
         info = {
-            "url_name": i.name,
+            "url_name": i["pattern"].name,
+            "pattern": i["url"],
         }
-        info.update(_get_callback_info(i.callback))
-        res[i.name] = info
+        info.update(_get_callback_info(i["pattern"].callback))
+        res[i["pattern"].name] = info
     return res
 
 
-def _get_url_patterns(resolver, result):
+def _get_url_patterns(resolver, result, prefix):
     for i in resolver.url_patterns:
         if isinstance(i, RegexURLPattern):
-            result.append(i)
+            result.append({
+                "url": _cleanup_pattern(prefix + i.regex.pattern),
+                "pattern": i,
+            })
         elif isinstance(i, RegexURLResolver):
-            _get_url_patterns(i, result)
+            _get_url_patterns(i, result, _cleanup_pattern(prefix + i.regex.pattern))
         else:
             raise TypeError(type(i))
 
@@ -75,3 +79,7 @@ def _get_callback_info(cb):
         "callback_path": cb_path,
         "callback_lineno": cb_lineno,
     }
+
+
+def _cleanup_pattern(pattern):
+    return pattern.replace("^", "").replace("$", "")
