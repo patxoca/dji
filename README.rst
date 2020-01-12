@@ -45,7 +45,7 @@ Configuration
 
 Add ``djira`` to ``INSTALLED_APPS`` in your project's config and
 include djira URLs in your root url definition. Since ``djira`` is
-ment for development environments its better to enable it
+meant for development environments its better to enable it
 conditionally:
 
 .. code-block:: python
@@ -185,7 +185,7 @@ Take a look at the `pluggy docs <https://pluggy.readthedocs.io/en/latest/>`_
 for extra details.
 
 **Warning**: endpoints with *dunder* names are reserved for internal
-usage.
+use.
 
 
 Loading plugins
