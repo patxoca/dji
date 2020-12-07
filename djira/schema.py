@@ -17,9 +17,11 @@ from __future__ import unicode_literals
 
 import functools
 
+from django.apps import apps
 from django.utils.datastructures import MultiValueDict
 
 from . import validators as V
+from .common import logger
 
 # marker for missing values
 _UNDEFINED = object()
@@ -119,6 +121,37 @@ class List(_Type):
         to_python = self._item_type.to_python
         res = [to_python(i) for i in value]
         return self._apply_validators(res)
+
+
+class DottedModelName(_Type):
+    """Model dotted name.
+
+    Returns a model class.
+
+    """
+    type_name = "dotted_model_name"
+
+    @staticmethod
+    def python_type(v):
+        try:
+            app_name, model_name = v.split(".")
+        except Exception as e:
+            logger.error("Unexpected error", exc_info=True)
+            raise TypeError("invalid dotted name: {!r}".format(v))
+
+        try:
+            app = apps.get_app_config(app_name)
+        except Exception as e:
+            logger.error("Unexpected error", exc_info=True)
+            raise TypeError("app not found: {!r}".format(app_name))
+
+        try:
+            model = app.get_model(model_name)
+        except Exception as e:
+            logger.error("Unexpected error", exc_info=True)
+            raise TypeError("model not found: {!r}".format(model_name))
+
+        return model
 
 
 class Schema(_Type):
