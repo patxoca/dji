@@ -68,7 +68,7 @@ FIELD_ATTRS = (
     "column", "description", "editable", "empty_strings_allowed",
     "encoding", "help_text", "hidden", "max_length", "name", "null",
     "primary_key", "unique", "unique_for_date", "unique_for_month",
-    "unique_for_year",
+    "unique_for_year", "verbose_name",
 )
 
 
