@@ -1,3 +1,30 @@
+2020-12-07  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/models.py, djira/schema.py: Added endpoint
+	"get_model_details".
+
+2020-01-12  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Fix a couple of misspellings.
+
+2019-04-14  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/urls.py: Added the view's URL to endpoint
+	"get_urls_details".
+
+2018-10-27  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/urls.py: Afegit FIXME relacionat amb la
+	compatibilitat amb django 2.x.
+
+2018-08-28  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* README.rst: Improved README.
+
+2018-08-28  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* ChangeLog, setup.py: Release 0.2.1
+
 2018-08-28  Alexis Roda <alexis.roda.villalonga@gmail.com>
 
 	* README.rst: Document installation from pypi.  Since there ara two installation methods it's better to put the
