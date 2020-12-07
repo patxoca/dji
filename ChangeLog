@@ -1,5 +1,15 @@
 2020-12-07  Alexis Roda <alexis.roda.villalonga@gmail.com>
 
+	* : commit 9ce6c9c63e97ebfb157f4b6a4732bcceb4b31e32 Author: Alexis
+	Roda <alexis.roda.villalonga@gmail.com> Date:   Mon Dec 7 18:41:23
+	2020 +0100
+
+2020-12-07  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* ChangeLog, setup.py: Release 0.3.1
+
+2020-12-07  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
 	* tox.ini: Actualitzar matriu de tests de tox.
 
 2020-12-07  Alexis Roda <alexis.roda.villalonga@gmail.com>
