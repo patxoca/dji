@@ -6,6 +6,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from types import NoneType
 from django.db.models import NOT_PROVIDED
 
 from ..common import EndPoint
@@ -72,16 +73,29 @@ FIELD_ATTRS = (
 )
 
 
+# HACK: try to identify what types are not json serializables in order
+# to avoid TypeErrors when serializing. A better approach would
+# registering encoders.
+
+JSON_SERIALIZABLE_TYPES = (NoneType, int, float, bool, list, tuple, dict)
+
+
 def _serialize_field(model):
     res = {}
     for i in FIELD_ATTRS:
         if hasattr(model, i):
             res[i] = getattr(model, i)
 
-    if model.default is NOT_PROVIDED:
+    if isinstance(model.default, JSON_SERIALIZABLE_TYPES):
+        default = model.default
+    elif model.default is NOT_PROVIDED:
+        # NOT_PROVIDED is considered synonym to SQL's NULL which maps
+        # to None.
         default = None
     else:
-        default = model.default
+        # If we can provide something useful al least provide
+        # something informative.
+        default = repr(model.default)
     res["default"] = default
 
     return res
