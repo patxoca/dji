@@ -1,3 +1,17 @@
+2020-12-08  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/models.py: Improve handling of the default value
+	regarding json serialization.
+
+2020-12-08  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* djira/endpoints/models.py: Fix problem with models not defining an
+	auto field.
+
+2020-12-07  Alexis Roda <alexis.roda.villalonga@gmail.com>
+
+	* ChangeLog, setup.py: Release 0.3.2
+
 2020-12-07  Alexis Roda <alexis.roda.villalonga@gmail.com>
 
 	* : commit 9ce6c9c63e97ebfb157f4b6a4732bcceb4b31e32 Author: Alexis

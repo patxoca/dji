@@ -8,7 +8,7 @@ import os
 from setuptools import setup, find_packages
 
 
-version = "0.3.2"
+version = "0.3.3"
 
 
 def read(*path_components):
