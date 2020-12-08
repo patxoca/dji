@@ -36,7 +36,7 @@ def get_model_details(model):
         "abstract": meta.abstract,
         "app_label": meta.app_label,
         "auto_created": meta.auto_created,
-        "auto_field": meta.auto_field.name,
+        "auto_field": meta.auto_field.name if meta.auto_field else None,
         "concrete_fields": [i.name for i in meta.concrete_fields],
         "db_table": meta.db_table,
         "db_tablespace": meta.db_tablespace,
